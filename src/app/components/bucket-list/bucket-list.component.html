@@ -1,3 +1,76 @@
-<p>
-  bucket-list works!
-</p>
+<div id="addBucket" *ngIf="showAddBucket">
+  <form [formGroup]="bucketListForm" (ngSubmit)="save()" novalidate>
+    <div class="form-row">
+
+      <div class="col">
+        <label class="col-md-2 control-label" for="name">Name</label>
+        <input class="form-control" id="nameId" type="text" placeholder="Bucket name (required)" formControlName="name" [ngClass]="{'is-invalid': (bucketListForm.get('name').touched || bucketListForm.get('name').dirty) && !bucketListForm.get('name').valid }"
+        />
+        <span class="help-block" *ngIf="(bucketListForm.get('name').touched || 
+    bucketListForm.get('name').dirty) && 
+    bucketListForm.get('name').errors" [ngClass]="{'invalid-feedback': (bucketListForm.get('name').touched || bucketListForm.get('name').dirty) && !bucketListForm.get('name').valid }">
+          <span *ngIf="bucketListForm.get('name').errors.required">
+            Please enter bucket name.
+          </span>
+          <span *ngIf="bucketListForm.get('name').errors.minlength">
+            The name must be at least 4 characters long.
+          </span>
+        </span>
+      </div>
+
+      <div class="col" [ngClass]="{':invalid': (bucketListForm.get('name').touched || bucketListForm.get('name').dirty) && !bucketListForm.get('name').valid }">
+        <label class="col-md-2 control-label" for="location">Location</label>
+        <select class="form-control" id="locationId" formControlName="location">
+          <option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</option>
+        </select>
+        <span class="help-block" *ngIf="(bucketListForm.get('location').touched || 
+    bucketListForm.get('location').dirty) && 
+    bucketListForm.get('location').errors">
+          <span *ngIf="bucketListForm.get('location').errors.required">
+            Please select bucket location.
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2 col-md-offset-2">
+          <button class="btn btn-default" type="button" (click)="populateFormData()">Initial values</button>
+        </div>
+    
+        <div class="form-group">
+          <div class="col-md-2 col-md-offset-2">
+            <button class="btn btn-primary" type="submit" [disabled]="!bucketListForm.valid" >Save</button>
+          </div>
+        </div>
+      </div>
+  </form>
+
+</div>
+
+<!-- 
+<div class="collapse" id="collapseAddBucket">
+  <div class="card card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica,
+    craft beer labore wes anderson cred nesciunt sapiente ea proident.
+  </div>
+</div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+  aria-controls="collapseExample">
+  Button with data-target
+</button>
+
+ data-toggle="collapse" data-target="#collapseAddBucket" aria-expanded="true"
+    aria-controls="collapseAddBucket"
+  -->
+<!-- Buckets List -->
+<div id="bucketsList">
+  <button class="btn btn-primary" type="button" (click)="showAddBucket = !showAddBucket">
+    Add Bucket
+  </button>
+  <div class="row" *ngFor="let bucket of buckets">
+    <div class="col-md-6">{{ bucket.name }}</div>
+    <div class="col-md-6">{{ bucket.location.name }}</div>
+  </div>
+
+</div>
