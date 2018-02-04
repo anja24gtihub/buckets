@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 /*FormBuilder, Validators, AbstractControl, ValidatorFn, FormArray */
-import { Bucket, Buckets, Locations, BucketLocation } from './bucket-list.model';
+import { Bucket, BucketLocation } from '../bucket.model';
 import { StorageService } from '../../services/storage.service';
 import { Local } from 'protractor/built/driverProviders';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
-  selector: 'app-bucket-list',
+  selector: 'bucket-list',
   templateUrl: './bucket-list.component.html',
   styleUrls: ['./bucket-list.component.scss']
 })
@@ -15,55 +17,55 @@ export class BucketListComponent implements OnInit {
   buckets: Bucket[];
   locations: BucketLocation[];
   showAddBucket: boolean = false;
-  defaultLocation: BucketLocation = new BucketLocation();
 
   constructor(private formBuilder: FormBuilder, private storageService: StorageService) { }
 
   ngOnInit() {
-    this.defaultLocation = { id: '541909F3-20FC-4382-A8E8-18042F5E7677', name: 'Kranj' };
-
     this.bucketListForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(4)]],
-      location: ['', Validators.required] // this.defaultLocation
+      location: ['', Validators.required]
     });
 
-    /* this.bucketListForm = new FormGroup({
-      name: new FormControl(),
-      location: new FormControl()// new FormControl(this.defaultLocation)
-    }); */
     this.getBuckets();
     this.getLocations();
-
   }
 
-  getLocations() {
+  getLocations(): void {
     this.storageService.getLocations()
-      .subscribe((result: Locations) => {
-        this.locations = result.locations;
+      .subscribe((result) => {
+        this.locations = result;
       });
   }
 
-  getBuckets() {
+  getBuckets(): void {
     this.storageService.getBuckets()
-      .subscribe((result: Buckets) => {
-        this.buckets = result.buckets;
+      .subscribe(result => {
+        this.buckets = result
       });
   }
 
-  save() {
+  save(): void {
     let location = new BucketLocation();
     location.id = this.bucketListForm.controls.location.value;
     let bucket = new Bucket();
     bucket.name = this.bucketListForm.controls.name.value;
     bucket.location = location;
-    this.storageService.createBucket(bucket);
+
+    if (!bucket) { return; }
+
+    this.storageService.createBucket(bucket)
+      .subscribe(
+      bucket => {
+        this.showAddBucket = false;
+        this.buckets.push(bucket);
+      }
+      );
   }
 
-  populateFormData() {
-    this.bucketListForm.patchValue({
-      name: 'bucket'
-      // location.id = '571E30F3-7A96-45FF-8FDE-0A3F0E6BBDF4' // : { id: '571E30F3-7A96-45FF-8FDE-0A3F0E6BBDF4', name: 'Ljubljana' }
-    });
+  deleteBucket(bucket: Bucket): void {
+    this.buckets = this.buckets.filter(item => item !== bucket);
+    this.storageService.deleteBucket(bucket)
+      .subscribe();
   }
 
 }

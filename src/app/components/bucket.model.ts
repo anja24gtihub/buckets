@@ -5,15 +5,13 @@ export class Bucket {
     location: BucketLocation;
 }
 
-export class Buckets {
-    buckets: Bucket[];
-}
-
 export class BucketLocation {
     id: string;
     name: string;
 }
 
-export class Locations {
-    locations: BucketLocation[];
+export class BucketObject {
+    name: string;
+    last_modified: string;
+    size: number;
 }

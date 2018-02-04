@@ -34,43 +34,27 @@
     </div>
 
     <div class="row">
-        <div class="col-md-2 col-md-offset-2">
-          <button class="btn btn-default" type="button" (click)="populateFormData()">Initial values</button>
-        </div>
-    
-        <div class="form-group">
-          <div class="col-md-2 col-md-offset-2">
-            <button class="btn btn-primary" type="submit" [disabled]="!bucketListForm.valid" >Save</button>
-          </div>
+      <div class="form-group">
+        <div class="col-md-2">
+          <button class="btn btn-primary" type="submit" [disabled]="!bucketListForm.valid">Save</button>
         </div>
       </div>
+    </div>
   </form>
-
 </div>
 
-<!-- 
-<div class="collapse" id="collapseAddBucket">
-  <div class="card card-body">
-    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica,
-    craft beer labore wes anderson cred nesciunt sapiente ea proident.
-  </div>
-</div>
-<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
-  aria-controls="collapseExample">
-  Button with data-target
-</button>
-
- data-toggle="collapse" data-target="#collapseAddBucket" aria-expanded="true"
-    aria-controls="collapseAddBucket"
-  -->
 <!-- Buckets List -->
 <div id="bucketsList">
   <button class="btn btn-primary" type="button" (click)="showAddBucket = !showAddBucket">
     Add Bucket
   </button>
   <div class="row" *ngFor="let bucket of buckets">
-    <div class="col-md-6">{{ bucket.name }}</div>
-    <div class="col-md-6">{{ bucket.location.name }}</div>
+    <div class="col-md-4">
+      <a [routerLink]="['/bucket', bucket.id]">
+        {{ bucket.name }}
+      </a>
+    </div>
+    <div class="col-md-4">{{ bucket.location.name }}</div>
+    <button class="btn btn-primary" class="col-md-4" (click)="deleteBucket(bucket)">Delete bucket</button>
   </div>
-
 </div>

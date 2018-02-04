@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { BucketListComponent } from './components/bucket-list/bucket-list.component';
-import { BucketObjectsListComponent } from './components/bucket-objects-list/bucket-objects-list.component';
+import { BucketDetailsComponent } from './components/bucket-details/bucket-details.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'bucket-list' },
   { path: 'bucket-list', component: BucketListComponent },
-  { path: 'bucket-objects-list', component: BucketObjectsListComponent }
+  { path: 'bucket/:id', component: BucketDetailsComponent }
 ];
 
 @NgModule({
@@ -17,4 +17,4 @@ const routes: Routes = [
 
 export class AppRoutingModule { }
 
-export const routingComponents = [BucketListComponent, BucketObjectsListComponent];
+export const routingComponents = [BucketListComponent, BucketDetailsComponent];

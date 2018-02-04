@@ -1,0 +1,28 @@
+<div>
+  <tabset [justified]="true">
+    <tab heading="Details" id="tab1" class="col">
+      <div *ngIf="bucket">
+        <div class="col-md-6">
+          Name: {{ bucket.name }}
+        </div>
+        <div class="col-md-6">
+          Location:{{ bucket.location.name }}
+        </div>
+      </div>
+    </tab>
+    <tab heading="Files">
+      <div *ngIf="bucketObjects">
+        <div *ngFor="let bucketObject of bucketObjects" class="row">
+          <div class="col-md-3">Name: {{ bucketObject.name }}</div>
+          <div class="col-md-3">Last modified: {{ bucketObject.last_modified }}</div>
+          <div class="col-md-3">Size: {{ bucketObject.size }}</div>
+          <button class="col-md-3" (click)="deleteBucketObject(bucketObject)">Delete bucket object</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="file">Choose file to upload</label>
+        <input type="file" id="file" (change)="uploadBucketObject($event.target.files)">
+      </div>
+    </tab>
+  </tabset>
+</div>
