@@ -1,3 +1,16 @@
+## TODO 
+    tests
+    design and UX
+    Use docker and docker compose for bonus points.
+
+## A simple object storage application using Angular 5 with following:
+    create bucket with name and location
+    list all buckets
+    delete a single bucket
+    upload an object to a bucket
+    list all objects in a bucket
+    delete an object
+
 # Buckets
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
